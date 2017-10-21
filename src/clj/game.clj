@@ -38,7 +38,7 @@
   (-> row
       (reverse)
       (merge-row-left)
-      (reverse)))
+      (#(vec (reverse %)))))
 
 (defn merge-row
   [move]
