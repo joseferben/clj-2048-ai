@@ -1,20 +1,23 @@
-(ns clj.ai)
+(ns clj.ai
+  (:require [clj.game :as game]))
 
 (def matrix [[6 5 4 3] [5 4 3 2] [4 3 2 1] [3 2 1 0]])
+(def moves-map {:up 0 :down 1 :left 2 :right 3})
+(def moves '(:up :down :left :right))
 
-(defn cluster-score [board]
+(defn cluster-score [board matrix]
   (reduce +
           (for [x [0 1 2 3]
                 y [0 1 2 3]]
-            (* x y))))
+            (* (nth (nth board x) y) (nth (nth matrix x) y)))))
 
 (defn neighbour-score
   [x y board]
   (reduce +
-          [(- (nth (nth board x) y) (nth (nth board (max (dec x) 0)) y))
-          (- (nth (nth board x) y) (nth (nth board (min (inc x) 3)) y))
-          (- (nth (nth board x) y) (nth (nth board x) (max (dec y) 0)))
-          (- (nth (nth board x) y) (nth (nth board x) (min (inc y) 3)))]))
+          [(Math/abs (- (nth (nth board x) y) (nth (nth board (max (dec x) 0)) y)))
+          (Math/abs (- (nth (nth board x) y) (nth (nth board (min (inc x) 3)) y)))
+          (Math/abs (- (nth (nth board x) y) (nth (nth board x) (max (dec y) 0))))
+          (Math/abs (- (nth (nth board x) y) (nth (nth board x) (min (inc y) 3))))]))
 
 (defn hetero-score
   [board]
@@ -23,11 +26,22 @@
                 y [0 1 2 3]]
             (neighbour-score x y board))))
 
-(defn heuristic-score
-  [board]
-  (- (* 2 (cluster-score board)) (hetero-score board)))
+(defn score
+  [board original]
+  (if (= board original)
+    0
+    (let [cl (cluster-score board matrix)
+          ht (hetero-score board)]
+      (prn "cluster score: " cl)
+      (prn "hetero score: " ht)
+      (- (* 10 cl) ht))))
 
 (defn best-move
   [board]
-  (prn "woooo" board)
-  (rand-int 4))
+  (prn "board: " board)
+  (let [moveh (sort-by val > (into (sorted-map)
+                    (map
+                     (fn [x] {x (score (game/execute-move board x) board)}) moves)))]
+    (prn moveh)
+    (get moves-map
+         (first (keys moveh)))))
