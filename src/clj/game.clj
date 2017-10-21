@@ -65,3 +65,4 @@
   (if (> 2 (get moves move))
    (transpose (merge-rows (transpose board) (transpose-move move)))
    (merge-rows board move)))
+

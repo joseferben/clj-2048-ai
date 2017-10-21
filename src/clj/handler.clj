@@ -23,11 +23,13 @@
   [board]
   (pretty-print board)
   (let [moveh (sort-by val > (into (sorted-map)
-                    (map
-                     (fn [x] {x (ex/calculate-chance (game/execute-move board x) 2 board)}) moves)))]
+                    (pmap
+                     (fn [x] {x (ex/calculate-chance (game/execute-move board x) 0 (System/currentTimeMillis) board)}) moves)))]
     (prn moveh)
     (get moves-map
          (first (keys moveh)))))
+
+(def m-best-move (memoize best-move))
 
 (defn json [form]
   (-> form
@@ -37,7 +39,7 @@
 
 (defroutes app-routes
   (GET "/" [] "Hello World")
-  (POST "/" {data :body} (json (best-move data)))
+  (POST "/" {data :body} (json (m-best-move data)))
   (route/not-found "Not Found"))
 
 (def app

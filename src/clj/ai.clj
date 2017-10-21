@@ -35,7 +35,7 @@
   ([board]
    (let [cl (cluster-score board matrix)
          ht (hetero-score board)]
-     (- (* 2 cl) ht))))
+     (- (* 1.3 cl) ht))))
 
 (defn best-move-heuristic
   [board]
