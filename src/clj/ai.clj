@@ -3,7 +3,7 @@
    [clojure.core.memoize :as memo]
    [clj.game :as game]))
 
-(def matrix [[24 20 16 12] [15 12 9 6] [8 6 4 2] [3 2 1 0]])
+(def matrix [[15 14 13 12] [8 9 10 11] [7 6 5 4] [0 1 2 3]])
 (def moves-map {:up 0 :down 1 :left 2 :right 3})
 (def moves '(:up :down :left :right))
 
