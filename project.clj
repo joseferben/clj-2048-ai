@@ -5,6 +5,7 @@
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [compojure "1.5.1"]
                  [cheshire "5.8.0"]
+                 [org.clojure/core.memoize "0.5.8"]
                  [ring/ring-json "0.4.0"]
                  [ring/ring-defaults "0.2.1"]]
   :plugins [[lein-ring "0.9.7"]]

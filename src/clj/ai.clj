@@ -1,8 +1,9 @@
 (ns clj.ai
   (:require
+   [clojure.core.memoize :as memo]
    [clj.game :as game]))
 
-(def matrix [[6 5 4 3] [5 4 3 2] [4 3 2 1] [3 2 1 0]])
+(def matrix [[24 20 16 12] [15 12 9 6] [8 6 4 2] [3 2 1 0]])
 (def moves-map {:up 0 :down 1 :left 2 :right 3})
 (def moves '(:up :down :left :right))
 
@@ -35,7 +36,9 @@
   ([board]
    (let [cl (cluster-score board matrix)
          ht (hetero-score board)]
-     (- (* 1.3 cl) ht))))
+     (- (* 1 cl) ht))))
+
+(def m-score (memoize score))
 
 (defn best-move-heuristic
   [board]

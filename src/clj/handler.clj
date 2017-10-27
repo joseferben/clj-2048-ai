@@ -2,6 +2,7 @@
   (:require [clj.ai :as ai]
             [clj.expectimax :as ex]
             [clj.game :as game]
+            [clojure.core.memoize :as mem]
             [compojure.core :refer :all]
             [compojure.route :as route]
             [cheshire.core :as cheshire]
@@ -19,12 +20,35 @@
   (prn (nth board 2))
   (prn (nth board 3)))
 
+(defn count-zeroes
+  [board]
+  (or (-> board
+          (flatten)
+          (frequencies)
+          (get 0)) 0))
+
+(defn decide-depth
+  [number]
+  (cond
+    (> number 12) 1
+    (> number 7) 2
+    (> number 4) 3
+    (> number 1) 4
+    (>= number 0) 6
+    :else 2))
+    
+(defn get-depth
+  [board]
+  (-> board
+      (count-zeroes)
+      (decide-depth)))
+
 (defn best-move
   [board]
   (pretty-print board)
   (let [moveh (sort-by val > (into (sorted-map)
                     (pmap
-                     (fn [x] {x (ex/calculate-chance (game/execute-move board x) 0 (System/currentTimeMillis) board)}) moves)))]
+                     (fn [x] {x (ex/calculate-chance (game/execute-move board x) 0 (get-depth board) board)}) moves)))]
     (prn moveh)
     (get moves-map
          (first (keys moveh)))))

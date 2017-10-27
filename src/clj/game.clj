@@ -33,18 +33,22 @@
       (remove-zeroes)
       (pad-zeroes)))
 
+(def m-left (memoize merge-row-left))
+
 (defn merge-row-right
   [row]
   (-> row
       (reverse)
-      (merge-row-left)
+      (m-left)
       (#(vec (reverse %)))))
+
+(def m-right (memoize merge-row-right))
 
 (defn merge-row
   [move]
   (if (= move :right)
-    merge-row-right
-    merge-row-left))
+    m-right
+    m-left))
 
 (defn merge-rows
   [board move]
