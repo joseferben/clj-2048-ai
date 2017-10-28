@@ -1,6 +1,6 @@
-# clj
+# clj-2048-ai
 
-FIXME
+You can read more about the bot in this blog post. (TODO)
 
 ## Prerequisites
 
@@ -10,10 +10,18 @@ You will need [Leiningen][] 2.0.0 or above installed.
 
 ## Running
 
-To start a web server for the application, run:
+To start a web server on `localhost:3000` for the bot, run:
 
     lein ring server
 
-## License
+## Usage
 
-Copyright © 2017 FIXME
+Simply `POST` the game board you want the best move for to `http://localhost:3000`.
+
+```
+POST / HTTP/1.0
+Content-Type: application/json
+
+[[16 2 2 0] [8 2 0 0] [4 2 2 0] [0 0 0 2]]
+```
+

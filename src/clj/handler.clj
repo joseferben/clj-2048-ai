@@ -10,50 +10,17 @@
             [ring.util.response :refer [response content-type]]
             [ring.middleware.defaults :refer [wrap-defaults api-defaults]]))
 
-(def moves '(:up :down :left :right))
-(def moves-map {:up 0 :down 1 :left 2 :right 3})
-
-(defn pretty-print
-  [board]
-  (prn (nth board 0))
-  (prn (nth board 1))
-  (prn (nth board 2))
-  (prn (nth board 3)))
-
-(defn count-zeroes
-  [board]
-  (or (-> board
-          (flatten)
-          (frequencies)
-          (get 0)) 0))
-
-(defn decide-depth
-  [number]
-  (cond
-    (> number 12) 1
-    (> number 7) 2
-    (> number 4) 3
-    (> number 1) 4
-    (>= number 0) 6
-    :else 2))
-    
-(defn get-depth
-  [board]
-  (-> board
-      (count-zeroes)
-      (decide-depth)))
-
 (defn best-move
+  "returns the best move given the current board"
   [board]
-  (pretty-print board)
   (let [moveh (sort-by val > (into (sorted-map)
                     (pmap
-                     (fn [x] {x (ex/calculate-chance (game/execute-move board x) 0 (get-depth board) board)}) moves)))]
-    (prn moveh)
-    (get moves-map
+                     (fn [x] {x (ex/calculate-chance
+                                 (game/execute-move board x) 0
+                                 (ex/get-depth board) board)})
+                     game/moves)))]
+    (get game/moves-map
          (first (keys moveh)))))
-
-(def m-best-move (memoize best-move))
 
 (defn json [form]
   (-> form
@@ -62,8 +29,7 @@
     (content-type "application/json; charset=utf-8")))
 
 (defroutes app-routes
-  (GET "/" [] "Hello World")
-  (POST "/" {data :body} (json (m-best-move data)))
+  (POST "/" {data :body} (json (best-move data)))
   (route/not-found "Not Found"))
 
 (def app
