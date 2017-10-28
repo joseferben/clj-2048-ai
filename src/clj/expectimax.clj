@@ -21,7 +21,7 @@
 (defn- all-moves
   [board]
   (filter #(not= % board) (map #(game/execute-move board %) game/moves)))
-d
+
 (defn- decide-depth
   [number]
   (cond
