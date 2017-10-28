@@ -4,7 +4,7 @@
 ![](https://raw.githubusercontent.com/jerben/clj-2048-ai/master/demo.gif)
 
 
-You can read more about the [bot](https://gfycat.com/gifs/detail/HighThornyBlesbok) in this blog post. (TODO)
+You can read more about the bot in this blog post. (TODO)
 
 ## Prerequisites
 
