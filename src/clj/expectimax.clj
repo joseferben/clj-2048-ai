@@ -28,7 +28,7 @@
     (> number 12) 1
     (> number 6) 2
     (> number 4) 4
-    (> number 2) 5
+    (> number 2) 4
     (>= number 0) 6
     :else 2))
 
