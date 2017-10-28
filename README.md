@@ -18,6 +18,8 @@ To start a web server on `localhost:3000` for the bot, run:
 
 Simply `POST` the game board you want the best move for to `http://localhost:3000`.
 
+Request:
+
 ```
 POST / HTTP/1.0
 Content-Type: application/json
@@ -25,3 +27,14 @@ Content-Type: application/json
 [[16 2 2 0] [8 2 0 0] [4 2 2 0] [0 0 0 2]]
 ```
 
+Response:
+
+```
+2
+```
+
+This is the mapping of int to move:
+
+```clojure
+(def moves-map {:up 0 :down 1 :left 2 :right 3})
+```
