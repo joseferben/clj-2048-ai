@@ -3,8 +3,8 @@
 ![](/img/2048-clj/demo.gif)
 ![](https://raw.githubusercontent.com/jerben/clj-2048-ai/master/demo.gif)
 
-
-You can read more about the bot in this blog post. (TODO)
+This bot uses the expectimax search to beat 2048.
+You can read more about it in this blog [post](https://200ok.ch/posts/beating-2048-using-clojure.html).
 
 ## Prerequisites
 
